@@ -1,6 +1,7 @@
 import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 
 const ShoppingCart = () => {
   const [items, setItems] = useState([]);
@@ -21,9 +22,26 @@ const ShoppingCart = () => {
     setPrice(totalPrice);
   };
 
-  // const setPlus = () => {
-  //   item.coun
-  // }
+  const setPlus = async (count, id, title, price, image) => {
+    count += 1;
+    const order = { title, price, count, image, id };
+    await axios.put(`http://localhost:5000/orderCart/${id}`, order);
+    loadItems();
+  };
+
+  const setMinus = async (count, id, title, price, image) => {
+    count -= 1;
+    const order = { title, price, count, image, id };
+    await axios.put(`http://localhost:5000/orderCart/${id}`, order);
+    loadItems();
+  };
+
+  const setChange = async (count, id, title, price, image, value) => {
+    count = value;
+    const order = { title, price, count, image, id };
+    await axios.put(`http://localhost:5000/orderCart/${id}`, order);
+    loadItems();
+  };
 
   const handleRemove = async (id) => {
     await axios.delete(`http://localhost:5000/orderCart/${id}`);
@@ -53,28 +71,48 @@ const ShoppingCart = () => {
                         <button
                           className="w-6 h-6"
                           onClick={() => {
-                            console.log("a");
+                            setMinus(
+                              item.count,
+                              item.id,
+                              item.title,
+                              item.price,
+                              item.image
+                            );
                           }}
                         >
                           <img src="minusIcon.png" alt="minus" />
                         </button>
                         <input
+                          type="text"
                           className="w-10 text-center"
                           value={item.count}
-                          // onChange={() => {
-                          //   setChange();
+                          // onChange={(e) => {
+                          //   setChange(
+                          //     item.count,
+                          //     item.id,
+                          //     item.title,
+                          //     item.price,
+                          //     item.image,
+                          //     e.target.value
+                          //   );
                           // }}
                         ></input>
                         <button
                           className="w-6 h-6"
                           onClick={() => {
-                            console.log("a");
+                            setPlus(
+                              item.count,
+                              item.id,
+                              item.title,
+                              item.price,
+                              item.image
+                            );
                           }}
                         >
                           <img src="plusIcon.png" alt="plus" />
                         </button>
                       </div>
-                      <h2>{item.price}</h2>
+                      <h2>${item.price * item.count}</h2>
                       <button
                         className="rounded-full bg-red-500 text-white p-1"
                         onClick={() => {
@@ -89,7 +127,10 @@ const ShoppingCart = () => {
               </div>
             );
           })}
-          <div className="text-3xl pt-10">Total Price: ${price.toFixed(2)}</div>
+          <div className="text-3xl pt-10">Total Price: ${price}</div>
+          <Link to="/" className="text-blue-600 underline text-2xl">
+            back to home
+          </Link>
         </div>
       </div>
     </div>
