@@ -1,12 +1,44 @@
 import React from "react";
 import { useEffect, useState } from "react";
 import Loading from "../components/Loading";
+import axios from "axios";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
   const [product, setProduct] = useState([]);
   const [addItem, setAddItem] = useState();
+
+  let count = 1;
+  const addCart = async (itemTitle, itemPrice) => {
+    let isExist = false;
+    const result = await axios.get("http://localhost:5000/orderCart");
+    if (result.data.length === 0) {
+      const order = { title: itemTitle, price: itemPrice, count: count };
+      axios.post("http://localhost:5000/orderCart", order);
+    } else {
+      result.data.map((orderItem) => {
+        if (itemTitle === orderItem.title) {
+          orderItem.count += 1;
+          const order = {
+            title: itemTitle,
+            price: itemPrice,
+            count: orderItem.count,
+          };
+          axios.put(`http://localhost:5000/orderCart/${orderItem.id}`, order);
+          isExist = true;
+        }
+      });
+      if (isExist == false) {
+        const order = {
+          title: itemTitle,
+          price: itemPrice,
+          count: count,
+        };
+        axios.post("http://localhost:5000/orderCart", order);
+      }
+    }
+  };
 
   useEffect(() => {
     const getProduct = async () => {
@@ -50,11 +82,11 @@ const Home = () => {
                     <h2 className="text-xl">${price}</h2>
                     <button
                       onClick={() => {
-                        setAddItem(item);
+                        addCart(title, price);
                         alert("item added");
                       }}
                     >
-                      <h2 className="rounded-full bg-green-500 p-2 mt-3 font-sans">
+                      <h2 className="rounded-full bg-green-400 p-2 mt-3 font-sans px-3">
                         Add to cart
                       </h2>
                     </button>
@@ -63,7 +95,6 @@ const Home = () => {
               );
             })}
           </div>
-          {addItem ? console.log(addItem) : console.log("item not clicked")}
         </div>
       </div>
     </div>

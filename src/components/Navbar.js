@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import Contact from "../pages/Contact";
 
 const Navbar = () => {
   return (
@@ -16,7 +17,9 @@ const Navbar = () => {
               className="w-10 h-10"
             />
           </Link>
-          <Link className="text-white text-xl pt-1">Contact Us</Link>
+          <Link className="text-white text-xl pt-1" to="/contact">
+            Contact Us
+          </Link>
         </ul>
       </div>
     </header>
