@@ -10,7 +10,7 @@ const Navbar = () => {
           CH Store
         </div>
         <ul className="flex gap-5">
-          <Link className="text-white">
+          <Link className="text-white" to="/shoppingCart">
             <img
               src="shoppingCart.png"
               alt="shopping cart"

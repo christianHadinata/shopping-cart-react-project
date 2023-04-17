@@ -10,11 +10,16 @@ const Home = () => {
   const [addItem, setAddItem] = useState();
 
   let count = 1;
-  const addCart = async (itemTitle, itemPrice) => {
+  const addCart = async (itemTitle, itemPrice, image) => {
     let isExist = false;
     const result = await axios.get("http://localhost:5000/orderCart");
     if (result.data.length === 0) {
-      const order = { title: itemTitle, price: itemPrice, count: count };
+      const order = {
+        title: itemTitle,
+        price: itemPrice,
+        count: count,
+        image: image,
+      };
       axios.post("http://localhost:5000/orderCart", order);
     } else {
       result.data.map((orderItem) => {
@@ -24,6 +29,7 @@ const Home = () => {
             title: itemTitle,
             price: itemPrice,
             count: orderItem.count,
+            image: image,
           };
           axios.put(`http://localhost:5000/orderCart/${orderItem.id}`, order);
           isExist = true;
@@ -34,6 +40,7 @@ const Home = () => {
           title: itemTitle,
           price: itemPrice,
           count: count,
+          image: image,
         };
         axios.post("http://localhost:5000/orderCart", order);
       }
@@ -82,7 +89,7 @@ const Home = () => {
                     <h2 className="text-xl">${price}</h2>
                     <button
                       onClick={() => {
-                        addCart(title, price);
+                        addCart(title, price, image);
                         alert("item added");
                       }}
                     >
