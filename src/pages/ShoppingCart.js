@@ -29,15 +29,8 @@ const ShoppingCart = () => {
     loadItems();
   };
 
-  const setMinus = async (count, id, title, price, image) => {
-    count -= 1;
-    const order = { title, price, count, image, id };
-    await axios.put(`http://localhost:5000/orderCart/${id}`, order);
-    loadItems();
-  };
-
   const setChange = async (count, id, title, price, image, value) => {
-    count = value;
+    count = parseInt(value);
     const order = { title, price, count, image, id };
     await axios.put(`http://localhost:5000/orderCart/${id}`, order);
     loadItems();
@@ -45,6 +38,17 @@ const ShoppingCart = () => {
 
   const handleRemove = async (id) => {
     await axios.delete(`http://localhost:5000/orderCart/${id}`);
+    loadItems();
+  };
+
+  const setMinus = async (count, id, title, price, image) => {
+    if (count == 1) {
+      handleRemove(id);
+    } else {
+      count -= 1;
+      const order = { title, price, count, image, id };
+      await axios.put(`http://localhost:5000/orderCart/${id}`, order);
+    }
     loadItems();
   };
 
@@ -86,16 +90,16 @@ const ShoppingCart = () => {
                           type="text"
                           className="w-10 text-center"
                           value={item.count}
-                          // onChange={(e) => {
-                          //   setChange(
-                          //     item.count,
-                          //     item.id,
-                          //     item.title,
-                          //     item.price,
-                          //     item.image,
-                          //     e.target.value
-                          //   );
-                          // }}
+                          onChange={(e) => {
+                            setChange(
+                              item.count,
+                              item.id,
+                              item.title,
+                              item.price,
+                              item.image,
+                              e.target.value
+                            );
+                          }}
                         ></input>
                         <button
                           className="w-6 h-6"
