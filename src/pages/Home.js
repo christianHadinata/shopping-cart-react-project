@@ -2,6 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import Loading from "../components/Loading";
 import axios from "axios";
+import { Link } from "react-router-dom";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -47,6 +48,22 @@ const Home = () => {
     }
   };
 
+  const setFilter = async (categories) => {
+    setIsLoading(true);
+    try {
+      const response = await fetch(
+        `http://localhost:5001/items?category=${categories}`
+      );
+      const data = await response.json();
+      <Link to={`/items?category=${categories}`}></Link>;
+      setIsLoading(false);
+      setProduct(data);
+    } catch (e) {
+      setIsLoading(false);
+      setIsError(true);
+    }
+  };
+
   useEffect(() => {
     const getProduct = async () => {
       setIsLoading(true);
@@ -70,24 +87,53 @@ const Home = () => {
       <div className="min-h-screen flex justify-center items-center">
         <div className="min-h-screen w-11/12">
           <div className="flex items-center text-center justify-center mt-10">
-            <button className="mx-5 px-4 p-2 bg-slate-700 text-white rounded-full">
+            <button
+              className="mx-5 px-4 p-2 bg-slate-700 text-white rounded-full"
+              onClick={async () => {
+                setIsLoading(true);
+                try {
+                  const response = await fetch("http://localhost:5001/items");
+                  const data = await response.json();
+                  setIsLoading(false);
+                  setProduct(data);
+                } catch (e) {
+                  setIsLoading(false);
+                  setIsError(true);
+                }
+              }}
+            >
               All Items
             </button>
             <button
               className="mx-5 px-4 p-2 bg-slate-700 text-white rounded-full"
-              // onClick={() => {
-              //   setFilter("electronics");
-              // }}
+              onClick={() => {
+                setFilter("electronics");
+              }}
             >
               Electronics
             </button>
-            <button className="mx-5 px-4 p-2 bg-slate-700 text-white rounded-full">
+            <button
+              className="mx-5 px-4 p-2 bg-slate-700 text-white rounded-full"
+              onClick={() => {
+                setFilter("jewelery");
+              }}
+            >
               Jewelery
             </button>
-            <button className="mx-5 px-4 p-2 bg-slate-700 text-white rounded-full">
+            <button
+              className="mx-5 px-4 p-2 bg-slate-700 text-white rounded-full"
+              onClick={() => {
+                setFilter("men's clothing");
+              }}
+            >
               Men's Clothing
             </button>
-            <button className="mx-5 px-4 p-2 bg-slate-700 text-white rounded-full">
+            <button
+              className="mx-5 px-4 p-2 bg-slate-700 text-white rounded-full"
+              onClick={() => {
+                setFilter("women's clothing");
+              }}
+            >
               Women's Clothing
             </button>
           </div>
