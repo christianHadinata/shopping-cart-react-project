@@ -27,6 +27,13 @@
       "count": 1,
       "image": "https://fakestoreapi.com/img/71li-ujtlUL._AC_UX679_.jpg",
       "id": 10
+    },
+    {
+      "title": "Fjallraven - Foldsack No. 1 Backpack, Fits 15 Laptops",
+      "price": 109.95,
+      "count": 1,
+      "image": "https://fakestoreapi.com/img/81fPKd-2AYL._AC_SL1500_.jpg",
+      "id": 11
     }
   ]
 }

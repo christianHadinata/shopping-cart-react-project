@@ -51,7 +51,7 @@ const Home = () => {
     const getProduct = async () => {
       setIsLoading(true);
       try {
-        const response = await fetch("https://fakestoreapi.com/products/");
+        const response = await fetch("http://localhost:5001/items");
         const data = await response.json();
         setIsLoading(false);
         setProduct(data);
@@ -69,6 +69,28 @@ const Home = () => {
     <div className="min-h-screen bg-blue-50 pt-8">
       <div className="min-h-screen flex justify-center items-center">
         <div className="min-h-screen w-11/12">
+          <div className="flex items-center text-center justify-center mt-10">
+            <button className="mx-5 px-4 p-2 bg-slate-700 text-white rounded-full">
+              All Items
+            </button>
+            <button
+              className="mx-5 px-4 p-2 bg-slate-700 text-white rounded-full"
+              // onClick={() => {
+              //   setFilter("electronics");
+              // }}
+            >
+              Electronics
+            </button>
+            <button className="mx-5 px-4 p-2 bg-slate-700 text-white rounded-full">
+              Jewelery
+            </button>
+            <button className="mx-5 px-4 p-2 bg-slate-700 text-white rounded-full">
+              Men's Clothing
+            </button>
+            <button className="mx-5 px-4 p-2 bg-slate-700 text-white rounded-full">
+              Women's Clothing
+            </button>
+          </div>
           <div className="flex flex-wrap justify-items-center text-center">
             {product.map((item) => {
               const { id, category, description, image, price, title } = item;
@@ -86,6 +108,7 @@ const Home = () => {
                         {title}
                       </h1>
                     </div>
+                    <h3>({category})</h3>
                     <h2 className="text-xl">${price}</h2>
                     <button
                       onClick={() => {
