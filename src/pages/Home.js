@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import Loading from "../components/Loading";
 import axios from "axios";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -159,7 +160,16 @@ const Home = () => {
                     <button
                       onClick={() => {
                         addCart(title, price, image);
-                        alert("item added");
+                        toast.success("Item added to cart", {
+                          position: "top-center",
+                          autoClose: 2000,
+                          hideProgressBar: false,
+                          closeOnClick: true,
+                          pauseOnHover: false,
+                          draggable: true,
+                          progress: undefined,
+                          theme: "colored",
+                        });
                       }}
                     >
                       <h2 className="rounded-full bg-green-400 p-2 mt-3 font-sans px-3">

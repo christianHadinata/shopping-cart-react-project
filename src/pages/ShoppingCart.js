@@ -2,6 +2,7 @@ import React from "react";
 import axios from "axios";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
+import { toast } from "react-toastify";
 
 const ShoppingCart = () => {
   const [items, setItems] = useState([]);
@@ -39,6 +40,16 @@ const ShoppingCart = () => {
   const handleRemove = async (id) => {
     await axios.delete(`http://localhost:5000/orderCart/${id}`);
     loadItems();
+    toast.info("Item has been removed", {
+      position: "top-center",
+      autoClose: 2000,
+      hideProgressBar: false,
+      closeOnClick: true,
+      pauseOnHover: false,
+      draggable: true,
+      progress: undefined,
+      theme: "light",
+    });
   };
 
   const setMinus = async (count, id, title, price, image) => {

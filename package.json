@@ -13,11 +13,13 @@
     "react-router": "^6.10.0",
     "react-router-dom": "^6.10.0",
     "react-scripts": "5.0.1",
+    "react-toastify": "^9.1.2",
     "web-vitals": "^2.1.4"
   },
   "scripts": {
     "start": "react-scripts start",
     "json-server": "json-server --watch db.json --port 5000",
+    "json-server-maindb": "json-server --watch maindb.json --port 5001",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
